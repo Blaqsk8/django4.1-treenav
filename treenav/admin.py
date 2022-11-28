@@ -1,10 +1,9 @@
 from functools import update_wrapper
 
-from django.conf.urls import url
 from django.contrib import admin
 from django.contrib.contenttypes.admin import GenericStackedInline
 from django.shortcuts import redirect
-from django.urls import reverse
+from django.urls import reverse, re_path
 from django.utils.html import format_html
 from django.utils.safestring import mark_safe
 from django.utils.translation import gettext_lazy as _
@@ -81,13 +80,13 @@ class MenuItemAdmin(MPTTModelAdmin):
             return update_wrapper(wrapper, view)
 
         urls = [
-            url(
+            re_path(
                 r"^refresh-hrefs/$",
                 wrap(self.refresh_hrefs),
                 name="treenav_refresh_hrefs",
             ),
-            url(r"^clean-cache/$", wrap(self.clean_cache), name="treenav_clean_cache"),
-            url(
+            re_path(r"^clean-cache/$", wrap(self.clean_cache), name="treenav_clean_cache"),
+            re_path(
                 r"^rebuild-tree/$", wrap(self.rebuild_tree), name="treenav_rebuild_tree"
             ),
         ] + urls
